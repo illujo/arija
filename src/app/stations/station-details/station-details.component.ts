@@ -46,7 +46,18 @@ export class StationComponent implements OnInit {
   getData() {
     if (this.id) {
       this.loadingStation = true;
-      this._station.getStation(this.id).then((result) => this.loadStation(<Station>result));
+
+      // Change .then() to .subscribe()
+      this._station.getStation(this.id).subscribe({
+        next: (result) => {
+          this.loadStation(result);
+          this.loadingStation = false; // Good practice to turn off loader here
+        },
+        error: (err) => {
+          console.error('Error loading station details:', err);
+          this.loadingStation = false;
+        }
+      });
     }
   }
 }

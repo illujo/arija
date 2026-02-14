@@ -20,8 +20,9 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._stationService.getStations().then(stations => {
-      this.stations = stations;
+    this._stationService.getStations().subscribe({
+      next: (data) => this.stations = data,
+      error: (err) => console.error('API Error:', err)
     });
     console.log('this.stations', this.stations);
   }
